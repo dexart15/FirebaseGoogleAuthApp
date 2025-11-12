@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "FirebaseGoogleAuthApp",
-    "slug": "FirebaseGoogleAuthApp",
+    "slug": "firebasegoogleauthapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,7 +22,8 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.anonymous.FirebaseGoogleAuthApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -30,6 +31,13 @@
     "plugins": [
       "expo-router",
       "expo-web-browser"
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "c038418c-01ea-4cfd-a096-fad2149a977b"
+      }
+    },
+    "owner": "dharmaherzz"
   }
 }

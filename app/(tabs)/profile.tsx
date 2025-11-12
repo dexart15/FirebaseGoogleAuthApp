@@ -1,19 +1,18 @@
 import ProfileMenuItem from "@/components/ProfileMenuItem";
+import { FIREBASE_AUTH } from "@/FirebaseConfig";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React from "react";
 import { Image, Text, View } from "react-native";
-import { auth } from "@/FirebaseConfig";
-import { signOut } from "firebase/auth";
 
 export default function ProfileScreen() {
   const router = useRouter();
-  
+
   const handleLogout = async () => {
-    await signOut(auth);
+    await FIREBASE_AUTH.signOut();
     router.replace("/login");
   };
-  
+
   return (
     <View className="flex-1 bg-secondary">
       {/* Header */}

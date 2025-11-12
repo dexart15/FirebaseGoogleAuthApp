@@ -1,11 +1,62 @@
 // app/login.tsx
 import FormInput from "@/components/FormInput";
+import * as Google from "expo-auth-session/providers/google";
+import * as AuthSession from 'expo-auth-session';
 import { Link, useRouter } from "expo-router";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
+import { FIREBASE_AUTH } from "@/FirebaseConfig";
+import {
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithCredential,
+} from "firebase/auth";
 
 export default function LoginScreen() {
   const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const auth = FIREBASE_AUTH;
+
+  const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
+    clientId:
+      "386135433574-kalhjjqt3rajrkusejnsihranetq5v4l.apps.googleusercontent.com", // Ganti dengan Client ID Anda
+      redirectUri: AuthSession.makeRedirectUri(),
+  });
+
+  useEffect(() => {
+    if (response?.type === "success") {
+      const { id_token } = response.params;
+      const credential = GoogleAuthProvider.credential(id_token);
+      signInWithCredential(FIREBASE_AUTH, credential)
+        .then((userCredential) => {
+          console.log("User logged in with Google:", userCredential.user);
+        })
+        .catch((error) => {
+          console.error("Error logging in with Google:", error);
+        });
+    }
+  }, [response]);
+
+  const handleSignIn = async () => {
+    setLoading(true);
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      router.replace("/(tabs)/home");
+      console.log("User logged in:", user);
+    } catch (error: any) {
+      console.error("Error logging in:", error);
+      alert("Error logging in: " + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <View className="flex-1 bg-secondary px-6 justify-center">
@@ -18,8 +69,17 @@ export default function LoginScreen() {
       </Text>
 
       {/* Input Fields */}
-      <FormInput placeholder="Alamat Email" />
-      <FormInput placeholder="Kata Sandi" secureTextEntry />
+      <FormInput
+        placeholder="Alamat Email"
+        value={email}
+        onChangeText={setEmail}
+      />
+      <FormInput
+        placeholder="Kata Sandi"
+        secureTextEntry
+        value={password}
+        onChangeText={setPassword}
+      />
 
       {/* Forgot Password */}
       <TouchableOpacity className="items-end mt-2">
@@ -29,8 +89,10 @@ export default function LoginScreen() {
       </TouchableOpacity>
 
       {/* Login Button */}
-      <TouchableOpacity className="bg-primary py-3 rounded-full mt-6"
-        onPress={() => router.replace("/(tabs)/home")}>
+      <TouchableOpacity
+        className="bg-primary py-3 rounded-full mt-6"
+        onPress={handleSignIn}
+      >
         <Text className="text-center text-white font-poppins-bold text-[16px]">
           Masuk
         </Text>
@@ -43,19 +105,29 @@ export default function LoginScreen() {
 
       {/* Social Buttons */}
       <View className="flex-row justify-center gap-8">
-        <Image
-          source={require("@/assets/images/google.png")}
-          className="w-16 h-16 bg-white rounded-full"
-        />  
-        <Image
-          source={require("@/assets/images/facebook.png")}
-          className="w-16 h-16 bg-white rounded-full"
-        />
+        <TouchableOpacity
+          onPress={() => {
+            promptAsync();
+          }}
+        >
+          <Image
+            source={require("@/assets/images/google.png")}
+            className="w-16 h-16 bg-white rounded-full"
+          />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image
+            source={require("@/assets/images/facebook.png")}
+            className="w-16 h-16 bg-white rounded-full"
+          />
+        </TouchableOpacity>
       </View>
 
       {/* Footer Link */}
       <View className="flex-row justify-center mt-10">
-        <Text className="font-poppins-medium text-gray-700">Belum memiliki akun? </Text>
+        <Text className="font-poppins-medium text-gray-700">
+          Belum memiliki akun?{" "}
+        </Text>
         <Link href="/register" className="text-primary font-poppins-bold">
           Daftar
         </Link>

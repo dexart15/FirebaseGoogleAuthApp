@@ -1,15 +1,21 @@
-// components/FormInput.tsx
-import Colors from "@/constants/Colors";
-import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { TextInput, TouchableOpacity, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import Colors from "@/constants/Colors";
 
 interface FormInputProps {
   placeholder: string;
   secureTextEntry?: boolean;
+  value: string; // Tambahkan properti value
+  onChangeText: (text: string) => void; // Tambahkan properti onChangeText
 }
 
-export default function FormInput({ placeholder, secureTextEntry }: FormInputProps) {
+export default function FormInput({
+  placeholder,
+  secureTextEntry,
+  value,
+  onChangeText,
+}: FormInputProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -18,7 +24,10 @@ export default function FormInput({ placeholder, secureTextEntry }: FormInputPro
         placeholder={placeholder}
         secureTextEntry={secureTextEntry && !showPassword}
         placeholderTextColor={Colors.textLight}
+        autoCapitalize="none"
         className="flex-1 text-[15px] font-poppins"
+        value={value} // Gunakan value dari props
+        onChangeText={onChangeText} // Gunakan onChangeText dari props
       />
       {secureTextEntry && (
         <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
