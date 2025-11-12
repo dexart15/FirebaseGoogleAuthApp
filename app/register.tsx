@@ -70,12 +70,12 @@ export default function SignUpScreen() {
       </TouchableOpacity>
 
       {/* OR Divider */}
-      <Text className="text-center text-gray-500 mt-6 mb-3 font-poppins-medium">
+      {/* <Text className="text-center text-gray-500 mt-6 mb-3 font-poppins-medium">
         atau Daftar dengan
-      </Text>
+      </Text> */}
 
       {/* Social Buttons */}
-      <View className="flex-row justify-center gap-8">
+      {/* <View className="flex-row justify-center gap-8">
         <TouchableOpacity>
           <Image
             source={require("@/assets/images/google.png")}
@@ -88,7 +88,7 @@ export default function SignUpScreen() {
             className="w-16 h-16 bg-white rounded-full"
           />
         </TouchableOpacity>
-      </View>
+      </View> */}
 
       {/* Footer Link */}
       <View className="flex-row justify-center mt-10">

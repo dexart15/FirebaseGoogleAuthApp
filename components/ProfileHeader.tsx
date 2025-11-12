@@ -9,7 +9,7 @@ export default function ProfileHeader() {
     <View>
       <View className="flex-row items-center mb-5">
         <Image
-          source={require("@/assets/images/avatar.jpg")}
+          source={require("@/assets/images/d-avatar.jpg")}
           className="w-12 h-12 rounded-full mr-3 border-primary border-2"
         />
         <View>

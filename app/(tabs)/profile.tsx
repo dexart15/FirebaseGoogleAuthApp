@@ -1,5 +1,5 @@
 import ProfileMenuItem from "@/components/ProfileMenuItem";
-import { FIREBASE_AUTH } from "@/FirebaseConfig";
+import { auth, FIREBASE_AUTH } from "@/FirebaseConfig";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React from "react";
@@ -7,6 +7,8 @@ import { Image, Text, View } from "react-native";
 
 export default function ProfileScreen() {
   const router = useRouter();
+  const email = auth.currentUser?.email || ""; // Ambil email atau default ke string kosong
+  const username = email.split("@")[0].split(".")[0]; // Ambil bagian sebelum '@' dan sebelum '.'
 
   const handleLogout = async () => {
     await FIREBASE_AUTH.signOut();
@@ -19,7 +21,7 @@ export default function ProfileScreen() {
       <View className="bg-primary h-48 px-6 flex-row items-center justify-between pt-16">
         <View>
           <Text className="text-white text-xl font-poppins-semibold">
-            Asep Mancing Gorgon
+            {username}
           </Text>
           <View className="flex-row items-center mt-1">
             <Ionicons name="location" size={20} color="white" />
@@ -30,7 +32,7 @@ export default function ProfileScreen() {
         </View>
         <View className="relative">
           <Image
-            source={require("@/assets/images/avatar.jpg")}
+            source={require("@/assets/images/d-avatar.jpg")}
             className="w-16 h-16 rounded-full border-2 border-white"
           />
           <View className="absolute bottom-0 right-0 bg-white p-1 rounded-full">

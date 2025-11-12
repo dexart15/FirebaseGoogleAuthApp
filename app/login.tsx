@@ -1,7 +1,7 @@
 // app/login.tsx
 import FormInput from "@/components/FormInput";
 import * as Google from "expo-auth-session/providers/google";
-import * as AuthSession from 'expo-auth-session';
+import * as AuthSession from "expo-auth-session";
 import { Link, useRouter } from "expo-router";
 import React, { useState, useEffect } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
@@ -22,7 +22,7 @@ export default function LoginScreen() {
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     clientId:
       "386135433574-kalhjjqt3rajrkusejnsihranetq5v4l.apps.googleusercontent.com", // Ganti dengan Client ID Anda
-      redirectUri: AuthSession.makeRedirectUri(),
+    redirectUri: AuthSession.makeRedirectUri(),
   });
 
   useEffect(() => {
@@ -82,11 +82,11 @@ export default function LoginScreen() {
       />
 
       {/* Forgot Password */}
-      <TouchableOpacity className="items-end mt-2">
+      {/* <TouchableOpacity className="items-end mt-2">
         <Text className="text-[13px] text-primary font-poppins-medium">
           Lupa Kata Sandi
         </Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       {/* Login Button */}
       <TouchableOpacity
@@ -115,12 +115,12 @@ export default function LoginScreen() {
             className="w-16 h-16 bg-white rounded-full"
           />
         </TouchableOpacity>
-        <TouchableOpacity>
+        {/* <TouchableOpacity>
           <Image
             source={require("@/assets/images/facebook.png")}
             className="w-16 h-16 bg-white rounded-full"
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
       {/* Footer Link */}
