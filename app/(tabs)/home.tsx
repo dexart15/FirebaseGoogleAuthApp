@@ -2,17 +2,17 @@ import BannerCarousel from "@/components/BannerCarousel";
 import CategoryItem from "@/components/CategoryItem";
 import ProfileHeader from "@/components/ProfileHeader";
 import TechnicianCard from "@/components/TechnicianCard";
-import { technicians } from "@/data/technicians";
+import React, { useEffect, useState } from "react";
+import { getTechnicians } from "@/services/technicianService";
 import { useRouter } from "expo-router";
-import React, { useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 
 const categories = [
-  { id: 1, name: 'Kelistrikan', iconName: 'flash' as const },
-  { id: 2, name: 'Elektronik', iconName: 'tv' as const },
-  { id: 3, name: 'Jaringan', iconName: 'wifi' as const },
-  { id: 4, name: 'Komputer', iconName: 'desktop' as const },
-  { id: 5, name: 'Otomotif', iconName: 'car-sport' as const },
+  { id: 1, name: "Kelistrikan", iconName: "flash" as const },
+  { id: 2, name: "Elektronik", iconName: "tv" as const },
+  { id: 3, name: "Jaringan", iconName: "wifi" as const },
+  { id: 4, name: "Komputer", iconName: "desktop" as const },
+  { id: 5, name: "Otomotif", iconName: "car-sport" as const },
 ];
 
 // const technicians = [
@@ -49,7 +49,17 @@ const categories = [
 export default function HomeScreen() {
   const router = useRouter();
 
-  
+  const [technicians, setTechnicians] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTech = async () => {
+      const data = await getTechnicians();
+      setTechnicians(data);
+      setLoading(false);
+    };
+    fetchTech();
+  }, []);
 
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [favorites, setFavorites] = useState<number[]>([]);
@@ -73,12 +83,12 @@ export default function HomeScreen() {
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {categories.map((category) => (
           <CategoryItem
-          key={category.id}
-          id={category.id}
-          name={category.name}
-          iconName={category.iconName}
-          selected={selectedCategory === category.id}
-          onSelect={setSelectedCategory}
+            key={category.id}
+            id={category.id}
+            name={category.name}
+            iconName={category.iconName}
+            selected={selectedCategory === category.id}
+            onSelect={setSelectedCategory}
           />
         ))}
       </ScrollView>
@@ -88,16 +98,20 @@ export default function HomeScreen() {
         Teknisi Terbaik
       </Text>
 
-      <View className="flex-row flex-wrap justify-between">
-        {technicians.map((tech) => (  
-          <TechnicianCard
-            key={tech.id}
-            {...tech}
-            isFavorite={favorites.includes(tech.id)}
-            onToggleFavorite={toggleFavorite}
+      {loading ? (
+        <Text>Loading...</Text>
+      ) : (
+        <View className="flex-row flex-wrap justify-between">
+          {technicians.map((tech) => (
+            <TechnicianCard
+              key={tech.id}
+              {...tech}
+              isFavorite={favorites.includes(tech.id)}
+              onToggleFavorite={toggleFavorite}
             />
-        ))}
-      </View>
+          ))}
+        </View>
+      )}
     </ScrollView>
   );
 }

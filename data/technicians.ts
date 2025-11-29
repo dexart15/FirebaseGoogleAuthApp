@@ -9,9 +9,9 @@ export const technicians = [
     },
     {
       id: 2,
-      name: "Wahyu Dwi Putra",
+      name: "Komang Mandung",
       category: "Komputer",
-      location: "Gianyar, Bali",
+      location: "Denpasar, Bali",
       image: require("@/assets/images/tech2.jpg"),
       description: "Hai, saya Wahyu, sebagai teknisi Komputer. Saya bisa membantu perakitan PC, instalasi software, dan troubleshooting masalah komputer Anda.",
     },

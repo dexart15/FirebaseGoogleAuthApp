@@ -31,7 +31,16 @@ export default function LoginScreen() {
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(FIREBASE_AUTH, credential)
         .then((userCredential) => {
-          console.log("User logged in with Google:", userCredential.user);
+          const user = userCredential.user;
+
+          // Cek email admin
+          if (user.email === "admin@teknisini.com") {
+            router.replace("/admin/index");
+          } else {
+            router.replace("/(tabs)/home");
+          }
+
+          console.log("User logged in with Google:", user);
         })
         .catch((error) => {
           console.error("Error logging in with Google:", error);
@@ -48,7 +57,14 @@ export default function LoginScreen() {
         password
       );
       const user = userCredential.user;
-      router.replace("/(tabs)/home");
+
+      // Cek apakah admin
+      if (user.email === "admin@teknisini.com") {
+        router.replace("/admin/index");
+      } else {
+        router.replace("/(tabs)/home");
+      }
+
       console.log("User logged in:", user);
     } catch (error: any) {
       console.error("Error logging in:", error);

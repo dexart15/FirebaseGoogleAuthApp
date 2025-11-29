@@ -3,13 +3,14 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React from "react";
 import { Image, Text, TouchableOpacity } from "react-native";
+import { imageMap } from "@/data/imageMap";
 
 interface TechnicianCardProps {
   id: number;
   name: string;
   category: string;
   location: string;
-  image: any;
+  imageUrl: any;
   isFavorite: boolean;
   onToggleFavorite: (id: number) => void;
 }
@@ -19,11 +20,13 @@ const TechnicianCard: React.FC<TechnicianCardProps> = ({
   name,
   category,
   location,
-  image,
+  imageUrl,
   isFavorite,
   onToggleFavorite,
 }) => {
-  const router = useRouter();
+  // const router = useRouter();
+
+  const UseimageUrl = imageMap[imageUrl]; // ambil berdasarkan key
 
   return (
     <TouchableOpacity
@@ -45,7 +48,7 @@ const TechnicianCard: React.FC<TechnicianCardProps> = ({
       </TouchableOpacity>
 
       <Image
-        source={image}
+        source={UseimageUrl}
         className="w-20 h-20 rounded-full mb-2 border-primary border-2"
         resizeMode="cover"
       />
